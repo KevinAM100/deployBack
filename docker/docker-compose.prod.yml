@@ -1,0 +1,41 @@
+services:
+  postgres_prod:
+    image: postgres:latest
+    container_name: postgres_container_prod
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=am_db_prod
+    volumes:
+      - postgres-db-volume_prod:/var/lib/postgresql/data
+    ports:
+      - 5434:5432
+    networks:
+      - postgres-db-network_prod
+  mongodb_prod:
+    image: mongodb/mongodb-community-server:7.0.3-ubuntu2204-20240323T084243Z
+    container_name: mongodb_prod
+    restart: always
+    ports:
+      - "27019:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: candidate
+      command: mongod --auth
+    volumes:
+      - mongodb_data_prod:/docker/mongodb/data
+    networks:
+      - mongodb-network_prod
+
+volumes:
+  postgres-db-volume_prod:
+    driver: local
+  mongodb_data_prod:
+    driver: local
+networks:
+  postgres-db-network_prod:
+    driver: bridge
+  mongodb-network_prod:
+    driver: bridge

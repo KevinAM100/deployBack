@@ -1,0 +1,41 @@
+services:
+  postgres_test:
+    image: postgres:latest
+    container_name: postgres_container_test
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=am_db_test
+    volumes:
+      - postgres-db-volume_test:/var/lib/postgresql/data
+    ports:
+      - 5433:5432
+    networks:
+      - postgres-db-network_test
+  mongodb_test:
+    image: mongodb/mongodb-community-server:7.0.3-ubuntu2204-20240323T084243Z
+    container_name: mongodb_test
+    restart: always
+    ports:
+      - "27018:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: password
+      MONGO_INITDB_DATABASE: candidate
+      command: mongod --auth
+    volumes:
+      - mongodb_data_test:/docker/mongodb/data
+    networks:
+      - mongodb-network_test
+
+volumes:
+  postgres-db-volume_test:
+    driver: local
+  mongodb_data_test:
+    driver: local
+networks:
+  postgres-db-network_test:
+    driver: bridge
+  mongodb-network_test:
+    driver: bridge
