@@ -1,9 +1,9 @@
 server:
-  port: 8082
+  port: 8080
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/am_db_prod
+    url: jdbc:postgresql://postgres_new:5434/am_db_prod
     username: postgres
     password: postgres
   jpa:
@@ -13,7 +13,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
   data:
     mongodb:
-      uri: mongodb://root:password@localhost:27019/candidate
+      uri: mongodb://root:password@mongodb_new:27019/candidate
       port: 27019
       database: candidate
       username: root
